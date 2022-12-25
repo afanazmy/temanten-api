@@ -72,12 +72,16 @@ $app->configure('app');
 |
 */
 
-// $app->middleware([
-//     App\Http\Middleware\ExampleMiddleware::class
-// ]);
-
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
+]);
+
+$app->middleware([
+    App\Http\Middleware\ConvertRequestToSnakeCase::class
+]);
+
+$app->middleware([
+    App\Http\Middleware\ConvertResponseToCamelCase::class
 ]);
 
 /*
