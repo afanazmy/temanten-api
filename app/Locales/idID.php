@@ -16,5 +16,7 @@ trait idID
         Language::user['signout'] => 'Berhasil keluar.',
         Language::user['store'] => 'Berhasil menambah user.',
         Language::user['update'] => 'Berhasil mengubah user.',
+        Language::user['activate'] => 'Berhasil mengaktifkan user.',
+        Language::user['deactivate'] => 'Berhasil menonaktifkan user.',
     ];
 }

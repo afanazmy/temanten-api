@@ -38,7 +38,15 @@ class UserController extends Controller
 
         DB::commit();
 
-        return response()->json(DefaultResponse::parse('success', $this->language->get(Language::user['signin']), $user->first()));
+        $user = $user->first();
+        $user->permissions = DB::table('user_permissions')
+            ->select(['permission_id'])
+            ->join('permissions', 'permissions.id', '=', 'user_permissions.permission_id')
+            ->where('is_active', 1)
+            ->where('user_id', $user->id)
+            ->pluck('permission_id');
+
+        return response()->json(DefaultResponse::parse('success', $this->language->get(Language::user['signin']), $user));
     }
 
     public function signout(Request $request)
@@ -99,7 +107,7 @@ class UserController extends Controller
 
         if (!$result->first()) {
             DB::rollBack();
-            return response()->json(DefaultResponse::parse('success', $this->language->get(Language::common['notFound']), null), 404);
+            return response()->json(DefaultResponse::parse('failed', $this->language->get(Language::common['notFound']), null), 404);
         }
 
         $result->update([
@@ -113,5 +121,51 @@ class UserController extends Controller
         $result = $result->first();
 
         return response()->json(DefaultResponse::parse('success', $this->language->get(Language::user['update']), $result));
+    }
+
+    public function activate(Request $request, $id)
+    {
+        DB::beginTransaction();
+
+        $result = DB::table('users')->select(['id', 'username', 'is_active'])->where('id', $id);
+
+        if (!$result->first()) {
+            DB::rollBack();
+            return response()->json(DefaultResponse::parse('failed', $this->language->get(Language::common['notFound']), null), 404);
+        }
+
+        $result->update([
+            'is_active' => 1,
+            'updated_at' => Date::now(),
+        ]);
+
+        DB::commit();
+
+        $result = $result->first();
+
+        return response()->json(DefaultResponse::parse('success', $this->language->get(Language::user['activate']), $result));
+    }
+
+    public function deactivate(Request $request, $id)
+    {
+        DB::beginTransaction();
+
+        $result = DB::table('users')->select(['id', 'username', 'is_active'])->where('id', $id);
+
+        if (!$result->first()) {
+            DB::rollBack();
+            return response()->json(DefaultResponse::parse('failed', $this->language->get(Language::common['notFound']), null), 404);
+        }
+
+        $result->update([
+            'is_active' => 0,
+            'updated_at' => Date::now(),
+        ]);
+
+        DB::commit();
+
+        $result = $result->first();
+
+        return response()->json(DefaultResponse::parse('success', $this->language->get(Language::user['deactivate']), $result));
     }
 }

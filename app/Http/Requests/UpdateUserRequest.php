@@ -26,11 +26,13 @@ class UpdateUserRequest extends FormRequest
     {
         $id = $this->route('id') ?? null;
         $username = $this->username ?? null;
-        $exist = DB::table('users')->where('username', $username)->whereNot('id', $id)->first();
+        $find = DB::table('users')->where('id', $id)->first();
+        $exist = DB::table('users')->where('username', $username)->first();
 
         return [
-            'username' => ['required', function ($attribute, $value, $fail) use ($exist) {
-                if ($exist) $fail('Username already use.');
+            'username' => ['required', function ($attribute, $value, $fail) use ($id, $find, $exist) {
+                if (!$find) $fail('User not found');
+                else if ($exist && $exist->id !== $id) $fail('Username already use.');
             }],
             'password' => ['nullable', 'confirmed'],
         ];

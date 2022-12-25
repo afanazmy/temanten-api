@@ -16,5 +16,7 @@ trait enUS
         Language::user['signout'] => 'Successfully sign out.',
         Language::user['store'] => 'Successfully add user.',
         Language::user['update'] => 'Successfully update user.',
+        Language::user['activate'] => 'Successfully activate user.',
+        Language::user['deactivate'] => 'Successfully deactivate user.',
     ];
 }

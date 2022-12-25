@@ -50,5 +50,7 @@ class Language
         'signout' => 'user.signout',
         'store' => 'user.store',
         'update' => 'user.update',
+        'activate' => 'user.activate',
+        'deactivate' => 'user.deactivate',
     ];
 }

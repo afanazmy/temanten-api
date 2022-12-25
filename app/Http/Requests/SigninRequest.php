@@ -30,7 +30,9 @@ class SigninRequest extends FormRequest
         return [
             'username' => ['required', function ($attribute, $value, $fail) use ($user) {
                 $isValid = Hash::check($this->password, $user->password ?? null);
+                $isActive = $user->is_active ?? 0;
                 if (!$user || !$isValid) $fail('Username or password invalid');
+                else if ($isActive === 0) $fail('User status is deactivated');
             }],
             'password' => ['required', function ($attribute, $value, $fail) use ($user) {
                 $isValid = Hash::check($value, $user->password ?? null);
