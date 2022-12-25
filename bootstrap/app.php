@@ -74,6 +74,7 @@ $app->configure('app');
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
+    'permission' => App\Http\Middleware\Permission::class,
 ]);
 
 $app->middleware([
