@@ -23,8 +23,10 @@ $router->post('sign-in', 'UserController@signin');
 $router->get('sign-out', ['middleware' => 'auth', 'uses' => 'UserController@signout']);
 
 $router->group(['middleware' => 'auth', 'prefix' => 'users'], function () use ($router) {
-    $router->get('/', 'UserController@index');
-    $router->get('{id}',  'UserController@show');
-    $router->post('/', 'UserController@store');
-    $router->put('{id}',  'UserController@update');
+    $router->get('/', ['uses' => 'UserController@index']);
+    $router->get('{id}', ['uses' =>  'UserController@show']);
+    $router->post('/', ['middleware' => 'permission:Add User', 'uses' => 'UserController@store']);
+    $router->put('{id}', ['middleware' => 'permission:Update User', 'uses' =>  'UserController@update']);
+    $router->put('activate/{id}', ['middleware' => 'permission:Update User Status', 'uses' =>  'UserController@activate']);
+    $router->put('deactivate/{id}', ['middleware' => 'permission:Update User Status', 'uses' =>  'UserController@deactivate']);
 });
