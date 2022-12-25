@@ -21,3 +21,10 @@ $router->post('setup-wizard', 'SetupWizardController@store');
 
 $router->post('sign-in', 'UserController@signin');
 $router->get('sign-out', ['middleware' => 'auth', 'uses' => 'UserController@signout']);
+
+$router->group(['middleware' => 'auth', 'prefix' => 'users'], function () use ($router) {
+    $router->get('/', 'UserController@index');
+    $router->get('{id}',  'UserController@show');
+    $router->post('/', 'UserController@store');
+    $router->put('{id}',  'UserController@update');
+});

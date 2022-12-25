@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('token')->nullable();
             $table->string('language', 5)->nullable()->default('en-US');
+            $table->tinyInteger('is_active')->nullable()->default(1);
             $table->timestamps();
         });
     }
