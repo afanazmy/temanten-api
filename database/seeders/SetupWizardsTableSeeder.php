@@ -23,7 +23,7 @@ class SetupWizardsTableSeeder extends Seeder
             DB::table('setup_wizards')->insert([
                 'id' => Str::orderedUuid(),
                 'step' => 1,
-                'name' => json_encode(['en' => 'Add Superadmin', 'id' => 'Tambah Superadmin']),
+                'name' => json_encode(['en-US' => 'Add Superadmin', 'id-ID' => 'Tambah Superadmin']),
                 'type' => SetupWizard::T_SUPERADMIN,
                 'status' => SetupWizard::S_NOTYET,
                 'created_at' => Date::now(),
