@@ -91,7 +91,19 @@ class UserController extends Controller
         ];
 
         DB::beginTransaction();
+
         DB::table('users')->insert($result);
+
+        $userPermissions = [];
+        $permissions = $request->permissions ?? [];
+
+        foreach ($permissions as $key => $value) {
+            $userPermissions[$key]['user_id'] = $result['id'];
+            $userPermissions[$key]['permission_id'] = $value;
+        }
+
+        DB::table('user_permissions')->insert($userPermissions);
+
         DB::commit();
 
         unset($result['password']);
@@ -115,6 +127,18 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
             'updated_at' => Date::now(),
         ]);
+
+        DB::table('user_permissions')->where('user_id', $id)->delete();
+
+        $userPermissions = [];
+        $permissions = $request->permissions ?? [];
+
+        foreach ($permissions as $key => $value) {
+            $userPermissions[$key]['user_id'] = $id;
+            $userPermissions[$key]['permission_id'] = $value;
+        }
+
+        DB::table('user_permissions')->insert($userPermissions);
 
         DB::commit();
 
