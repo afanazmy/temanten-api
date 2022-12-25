@@ -39,6 +39,8 @@ class Language
     ];
 
     const user = [
-        'login' => 'user.login'
+        'unauthenticated' => 'user.unauthenticated',
+        'signin' => 'user.signin',
+        'signout' => 'user.signout',
     ];
 }

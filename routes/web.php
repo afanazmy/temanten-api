@@ -18,3 +18,6 @@ $router->get('/', function () use ($router) {
 });
 
 $router->post('setup-wizard', 'SetupWizardController@store');
+
+$router->post('sign-in', 'UserController@signin');
+$router->get('sign-out', ['middleware' => 'auth', 'uses' => 'UserController@signout']);

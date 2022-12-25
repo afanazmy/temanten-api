@@ -33,7 +33,7 @@ class DefaultResponse
      * @param array  $result
      * @return DefaultResponse
      */
-    public function __construct($status, $message, $result)
+    public function __construct($status, $message, $result = null)
     {
         $this->status = $status;
         $this->message = $message;
@@ -64,7 +64,7 @@ class DefaultResponse
      * @param array  $result
      * @return array
      */
-    public static function parse($status, $message, $result)
+    public static function parse($status, $message, $result = null)
     {
         return [
             'status' => $status,
