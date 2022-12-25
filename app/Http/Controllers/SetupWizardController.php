@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Auth;
 
 use App\Locales\Language;
 use App\Models\SetupWizard;
@@ -14,6 +15,13 @@ use App\Http\Requests\SetupWizardRequest;
 
 class SetupWizardController extends Controller
 {
+    public $language;
+
+    public function __construct()
+    {
+        $this->language = new Language(Auth::user());
+    }
+
     public function store(SetupWizardRequest $request)
     {
         DB::beginTransaction();
@@ -33,7 +41,6 @@ class SetupWizardController extends Controller
 
         DB::commit();
 
-        $language = new Language();
-        return response()->json(DefaultResponse::parse('success', $language->get(Language::setupWizard['store']), null));
+        return response()->json(DefaultResponse::parse('success', $this->language->get(Language::setupWizard['store']), null));
     }
 }
