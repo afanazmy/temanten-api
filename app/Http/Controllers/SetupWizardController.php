@@ -26,13 +26,28 @@ class SetupWizardController extends Controller
     {
         DB::beginTransaction();
 
-        DB::table('users')->insert([
+        $superadmin = [
             'id' => Str::orderedUuid(),
             'username' => $request->superadmin['username'],
             'password' => Hash::make($request->superadmin['password']),
             'created_at' => Date::now(),
             'updated_at' => Date::now(),
-        ]);
+        ];
+        DB::table('users')->insert($superadmin);
+
+        $userPermissions = DB::table('permissions')
+            ->select(['id as permission_id'])
+            ->where('is_active', 1)
+            ->orderBy('permission_group_id', 'asc')
+            ->get()
+            ->toJson();
+        $userPermissions = json_decode($userPermissions, true);
+
+        foreach ($userPermissions as $key => $value) {
+            $userPermissions[$key]['user_id'] = $superadmin['id'];
+        }
+
+        DB::table('user_permissions')->insert($userPermissions);
 
         DB::table('setup_wizards')->where('type', SetupWizard::T_SUPERADMIN)->update([
             'status' => SetupWizard::S_DONE,
