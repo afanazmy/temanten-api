@@ -25,14 +25,14 @@ class SigninRequest extends FormRequest
      */
     protected function rules(): array
     {
+        $user = DB::table('users')->where('username', $this->username)->first();
+
         return [
-            'username' => ['required', function ($attribute, $value, $fail) {
-                $user = DB::table('users')->where('username', $value)->first();
+            'username' => ['required', function ($attribute, $value, $fail) use ($user) {
                 $isValid = Hash::check($this->password, $user->password ?? null);
                 if (!$user || !$isValid) $fail('Username or password invalid');
             }],
-            'password' => ['required', function ($attribute, $value, $fail) {
-                $user = DB::table('users')->where('username', $this->username)->first();
+            'password' => ['required', function ($attribute, $value, $fail) use ($user) {
                 $isValid = Hash::check($value, $user->password ?? null);
                 if (!$user || !$isValid) $fail('Username or password invalid');
             }]
