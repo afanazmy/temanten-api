@@ -56,6 +56,12 @@ class SetupWizardController extends Controller
 
         DB::commit();
 
-        return response()->json(DefaultResponse::parse('success', $this->language->get(Language::setupWizard['store']), null));
+        return response()->json(
+            DefaultResponse::parse(
+                'success',
+                $this->language->get(Language::setupWizard['store'], ['appName' => env('APP_NAME')]),
+                null
+            )
+        );
     }
 }
