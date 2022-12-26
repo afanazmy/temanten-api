@@ -14,11 +14,15 @@ use App\Traits\Filter;
 use App\Locales\Language;
 use App\Imports\InvitationImport;
 use App\Exports\InvitationExport;
-use App\Http\Requests\GenerateQrRequest;
+use App\Http\Requests\ExportQrRequest;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Responses\DefaultResponse;
+use App\Http\Requests\GenerateQrRequest;
 use App\Http\Requests\StoreInvitationRequest;
 use App\Http\Requests\ImportInvitationRequest;
 use App\Http\Requests\UpdateInvitationRequest;
+
+use ZipArchive;
 
 class InvitationController extends Controller
 {
@@ -194,7 +198,7 @@ class InvitationController extends Controller
 
     public function downloadTemplate()
     {
-        return Excel::download(new InvitationExport, 'invitation.xlsx');
+        return Excel::download(new InvitationExport, 'invitation.xlsx', null, ['Access-Control-Allow-Origin' => '*']);
     }
 
     public function importTemplate(ImportInvitationRequest $request)
@@ -207,5 +211,51 @@ class InvitationController extends Controller
     {
         $result = QrCode::size(400)->generate($request->invitation_id);
         return $result;
+    }
+
+    public function exportQr(ExportQrRequest $request)
+    {
+        $zipName = 'qr-codes.zip';
+        $zipPath = 'zip/';
+        $tmpPath = 'zip/qr-codes/';
+        Storage::makeDirectory($tmpPath);
+
+        $invitations = DB::table('invitations')->select(['id', 'recipient_name'])->whereIn('id', $request->id)->get();
+
+        if (count($invitations) == 0) {
+            return response()->json(DefaultResponse::parse('failed', $this->language->get(Language::common['notFound']), null), 404);
+        }
+
+        foreach ($invitations as $invitation) {
+            QrCode::size(400)->generate($invitation->id, storage_path() . '/app/' . $tmpPath . $invitation->recipient_name . '.svg');
+        }
+
+        $zip = new ZipArchive();
+        $tempFile = tmpfile();
+        $tempFileUri = stream_get_meta_data($tempFile)['uri'];
+
+        if ($zip->open($tempFileUri, ZipArchive::CREATE) !== TRUE) {
+            echo 'Could not open ZIP file.';
+            return;
+        }
+
+        foreach ($invitations as $invitation) {
+            $file = storage_path() . '/app/' . $tmpPath . $invitation->recipient_name . '.svg';
+            if (!$zip->addFile($file, basename($file))) {
+                echo 'Could not add file to ZIP: ' . $file;
+            }
+        }
+
+        $zip->close();
+
+        rename($tempFileUri, storage_path() . '/app/' . $zipPath . $zipName);
+        Storage::deleteDirectory($tmpPath);
+
+        return response()
+            ->download(
+                storage_path() . '/app/' . $zipPath . $zipName,
+                $zipName,
+                ['Access-Control-Allow-Origin' => '*']
+            )->deleteFileAfterSend(true);
     }
 }

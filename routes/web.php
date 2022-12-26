@@ -35,6 +35,7 @@ $router->group(['middleware' => 'auth', 'prefix' => 'users'], function () use ($
 
 $router->group(['middleware' => 'auth', 'prefix' => 'invitations'], function () use ($router) {
     $router->get('qr-code', ['uses' =>  'InvitationController@generateQr']);
+    $router->post('qr-code/export', ['uses' =>  'InvitationController@exportQr']);
     $router->delete('clear', ['middleware' => 'permission:Delete All Invitation', 'uses' =>  'InvitationController@clear']);
     $router->put('restore-all', ['middleware' => 'permission:Restore All Invitation', 'uses' =>  'InvitationController@restoreAll']);
     $router->delete('delete', ['middleware' => 'permission:Delete Invitation', 'uses' =>  'InvitationController@delete']);
