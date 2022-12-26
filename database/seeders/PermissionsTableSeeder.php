@@ -61,9 +61,19 @@ class PermissionsTableSeeder extends Seeder
                         'permission_label' => json_encode(['en-US' => 'Delete Invitation', 'id-ID' => 'Hapus Undangan']),
                     ],
                     [
+                        'id' => 'Restore Invitation',
+                        'permission_group_id' => 2,
+                        'permission_label' => json_encode(['en-US' => 'Restore Invitation', 'id-ID' => 'Pulihkan Undangan']),
+                    ],
+                    [
                         'id' => 'Delete All Invitation',
                         'permission_group_id' => 2,
                         'permission_label' => json_encode(['en-US' => 'Delete All Invitation', 'id-ID' => 'Hapus Semua Undangan']),
+                    ],
+                    [
+                        'id' => 'Restore All Invitation',
+                        'permission_group_id' => 2,
+                        'permission_label' => json_encode(['en-US' => 'Restore All Invitation', 'id-ID' => 'Pulihkan Semua Undangan']),
                     ],
                 ]
             ],
@@ -81,6 +91,11 @@ class PermissionsTableSeeder extends Seeder
                         'permission_group_id' => 3,
                         'permission_label' => json_encode(['en-US' => 'Delete Guest Book', 'id-ID' => 'Hapus Buku Tamu']),
                     ],
+                    [
+                        'id' => 'Restore Guest Book',
+                        'permission_group_id' => 3,
+                        'permission_label' => json_encode(['en-US' => 'Restore Guest Book', 'id-ID' => 'Pulihkan Buku Tamu']),
+                    ],
                 ]
             ],
             [
@@ -96,6 +111,11 @@ class PermissionsTableSeeder extends Seeder
                         'id' => 'Delete Wish',
                         'permission_group_id' => 4,
                         'permission_label' => json_encode(['en-US' => 'Delete Wish', 'id-ID' => 'Hapus Ucapan']),
+                    ],
+                    [
+                        'id' => 'Restore Wish',
+                        'permission_group_id' => 4,
+                        'permission_label' => json_encode(['en-US' => 'Restore Wish', 'id-ID' => 'Pulihkan Ucapan']),
                     ],
                 ]
             ],
@@ -119,9 +139,19 @@ class PermissionsTableSeeder extends Seeder
                         'permission_label' => json_encode(['en-US' => 'Delete Galery', 'id-ID' => 'Hapus Galeri']),
                     ],
                     [
+                        'id' => 'Restore Galery',
+                        'permission_group_id' => 5,
+                        'permission_label' => json_encode(['en-US' => 'Restore Galery', 'id-ID' => 'Pulihkan Galeri']),
+                    ],
+                    [
                         'id' => 'Delete All Galery',
                         'permission_group_id' => 5,
                         'permission_label' => json_encode(['en-US' => 'Delete All Invitation', 'id-ID' => 'Hapus Semua Galeri']),
+                    ],
+                    [
+                        'id' => 'Restore All Galery',
+                        'permission_group_id' => 5,
+                        'permission_label' => json_encode(['en-US' => 'Restore All Invitation', 'id-ID' => 'Pulihkan Semua Galeri']),
                     ],
                 ]
             ],
