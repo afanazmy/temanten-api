@@ -17,6 +17,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('recipient_name');
             $table->tinyInteger('is_group')->nullable()->default(0);
+            $table->tinyInteger('is_family_member')->nullable()->default(0);
             $table->string('deleted_by')->nullable();
             $table->dateTime('deleted_at')->nullable();
             $table->timestamps();

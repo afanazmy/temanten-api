@@ -15,9 +15,7 @@ class InvitationExport  implements FromCollection, WithStyles, WithHeadings, Sho
     public function headings(): array
     {
         return [
-            'Code',
-            'Recipient Name',
-            'Is Group',
+            'Code', 'Recipient Name', 'Is Group', 'Is Family Member'
         ];
     }
 
@@ -26,7 +24,10 @@ class InvitationExport  implements FromCollection, WithStyles, WithHeadings, Sho
      */
     public function collection()
     {
-        return DB::table('invitations')->select(['id', 'recipient_name', 'is_group'])->whereNull('deleted_at')->get();
+        return DB::table('invitations')
+            ->select(['id', 'recipient_name', 'is_group', 'is_family_member'])
+            ->whereNull('deleted_at')
+            ->get();
     }
 
     public function styles(Worksheet $sheet)

@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\InvitationExport;
-use App\Http\Requests\ImportInvitationRequest;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
+use Maatwebsite\Excel\Facades\Excel;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 use App\Traits\Filter;
 use App\Locales\Language;
+use App\Imports\InvitationImport;
+use App\Exports\InvitationExport;
+use App\Http\Requests\GenerateQrRequest;
 use App\Http\Responses\DefaultResponse;
 use App\Http\Requests\StoreInvitationRequest;
+use App\Http\Requests\ImportInvitationRequest;
 use App\Http\Requests\UpdateInvitationRequest;
-use App\Imports\InvitationImport;
-use Maatwebsite\Excel\Facades\Excel;
 
 class InvitationController extends Controller
 {
@@ -30,7 +32,7 @@ class InvitationController extends Controller
      * @var array
      */
     public $columns = [
-        'id', 'recipient_name', 'is_group', 'deleted_by', 'deleted_at'
+        'id', 'recipient_name', 'is_group', 'is_family_member', 'deleted_by', 'deleted_at'
     ];
 
     public function __construct()
@@ -63,6 +65,7 @@ class InvitationController extends Controller
             'id' => Str::orderedUuid(),
             'recipient_name' => $request->recipient_name,
             'is_group' => $request->is_group,
+            'is_family_member' => $request->is_family_member,
             'created_at' => Date::now(),
             'updated_at' => Date::now(),
         ];
@@ -88,6 +91,7 @@ class InvitationController extends Controller
         $result->update([
             'recipient_name' => $request->recipient_name,
             'is_group' => $request->is_group,
+            'is_family_member' => $request->is_family_member,
             'updated_at' => Date::now(),
         ]);
 
@@ -197,5 +201,11 @@ class InvitationController extends Controller
     {
         Excel::import(new InvitationImport($request->type), $request->file);
         return response()->json(DefaultResponse::parse('success', $this->language->get(Language::invitation['import'])));
+    }
+
+    public function generateQr(GenerateQrRequest $request)
+    {
+        $result = QrCode::size(400)->generate($request->invitation_id);
+        return $result;
     }
 }

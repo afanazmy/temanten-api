@@ -24,21 +24,24 @@ $router->get('sign-out', ['middleware' => 'auth', 'uses' => 'UserController@sign
 
 $router->group(['middleware' => 'auth', 'prefix' => 'users'], function () use ($router) {
     $router->get('permissions', ['uses' => 'UserController@permissions']);
+    $router->put('activate/{id}', ['middleware' => 'permission:Update User Status', 'uses' =>  'UserController@activate']);
+    $router->put('deactivate/{id}', ['middleware' => 'permission:Update User Status', 'uses' =>  'UserController@deactivate']);
+
     $router->get('/', ['uses' => 'UserController@index']);
     $router->get('{id}', ['uses' =>  'UserController@show']);
     $router->post('/', ['middleware' => 'permission:Add User', 'uses' => 'UserController@store']);
     $router->put('{id}', ['middleware' => 'permission:Update User', 'uses' =>  'UserController@update']);
-    $router->put('activate/{id}', ['middleware' => 'permission:Update User Status', 'uses' =>  'UserController@activate']);
-    $router->put('deactivate/{id}', ['middleware' => 'permission:Update User Status', 'uses' =>  'UserController@deactivate']);
 });
 
 $router->group(['middleware' => 'auth', 'prefix' => 'invitations'], function () use ($router) {
+    $router->get('qr-code', ['uses' =>  'InvitationController@generateQr']);
     $router->delete('clear', ['middleware' => 'permission:Delete All Invitation', 'uses' =>  'InvitationController@clear']);
     $router->put('restore-all', ['middleware' => 'permission:Restore All Invitation', 'uses' =>  'InvitationController@restoreAll']);
     $router->delete('delete', ['middleware' => 'permission:Delete Invitation', 'uses' =>  'InvitationController@delete']);
     $router->put('restore', ['middleware' => 'permission:Restore Invitation', 'uses' =>  'InvitationController@restore']);
     $router->get('download-template', ['middleware' => 'permission:Add Invitation', 'uses' =>  'InvitationController@downloadTemplate']);
     $router->post('import-template', ['middleware' => 'permission:Add Invitation', 'uses' =>  'InvitationController@importTemplate']);
+
     $router->get('/', ['uses' => 'InvitationController@index']);
     $router->get('{id}', ['uses' =>  'InvitationController@show']);
     $router->post('/', ['middleware' => 'permission:Add Invitation', 'uses' => 'InvitationController@store']);
