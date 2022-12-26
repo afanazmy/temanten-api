@@ -9,7 +9,7 @@ trait enUS
         Language::common['found'] => 'Data found.',
         Language::common['notFound'] => 'Data not found.',
 
-        Language::setupWizard['store'] => 'Initial setup completed. Now you can use Temanten App.',
+        Language::setupWizard['store'] => 'Initial setup completed. Now you can use {appName}.',
 
         Language::user['unauthenticated'] => "You don't have access to this resource.",
         Language::user['signin'] => 'Successfully sign in.',
@@ -18,5 +18,13 @@ trait enUS
         Language::user['update'] => 'Successfully update user.',
         Language::user['activate'] => 'Successfully activate user.',
         Language::user['deactivate'] => 'Successfully deactivate user.',
+
+        Language::invitation['store'] => 'Successfully add invitation.',
+        Language::invitation['update'] => 'Successfully update invitation.',
+        Language::invitation['delete'] => 'Successfully delete invitation.',
+        Language::invitation['restore'] => 'Successfully restore invitation.',
+        Language::invitation['clear'] => 'Successfully delete all invitation.',
+        Language::invitation['restoreAll'] => 'Successfully restore all invitation.',
+        Language::invitation['import'] => 'Successfully import invitation.',
     ];
 }

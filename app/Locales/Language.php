@@ -27,11 +27,20 @@ class Language
      * Get language.
      *
      * @param string  $key
+     * @param array  $values
      * @return string
      */
-    public function get($key)
+    public function get($key, $values = [])
     {
-        return $this->languages()[$key] ?? null;
+        $message = $this->languages()[$key] ?? '';
+
+        foreach ($values as $key => $value) {
+            $message = str_replace('{' . $key . '}', $value, $message);
+        }
+
+        if ($message == '') $message = null;
+
+        return $message;
     }
 
     const common = [
@@ -52,5 +61,15 @@ class Language
         'update' => 'user.update',
         'activate' => 'user.activate',
         'deactivate' => 'user.deactivate',
+    ];
+
+    const invitation = [
+        'store' => 'invitation.store',
+        'update' => 'invitation.update',
+        'delete' => 'invitation.delete',
+        'restore' => 'invitation.restore',
+        'clear' => 'invitation.clear',
+        'restoreAll' => 'invitation.restoreAll',
+        'import' => 'invitation.import',
     ];
 }
