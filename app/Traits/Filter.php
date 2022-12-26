@@ -18,7 +18,7 @@ trait Filter
      */
     public function filter(Request $request, Builder $query, $config = ['paginate' => true])
     {
-        $_request = $request->except(['pagination', 'token', 'search', 'show_deleted']);
+        $_request = $request->except(['pagination', 'token', 'search', 'show_deleted', 'only_deleted']);
 
         /**
          * For search in spesific columns,
@@ -47,12 +47,19 @@ trait Filter
         /**
          * Handle tables with soft deletes
          */
+        $onlyDeleted = $request->only_deleted ?? false;
         $showDeleted = $request->show_deleted ?? false;
         $hasDeletedAt = Schema::hasColumn($query->from, 'deleted_at');
-        if ($hasDeletedAt) {
-            $where = 'whereNull';
-            if ($showDeleted) $where = 'orWhereNotNull';
-            $query->$where('delete');
+        if ($hasDeletedAt && !$onlyDeleted) {
+            if ($showDeleted) {
+                $query->orWhereNotNull('deleted_at');
+            }
+
+            $query->orWhereNull('deleted_at');
+        }
+
+        if ($hasDeletedAt && $onlyDeleted) {
+            $query->orWhereNotNull('deleted_at');
         }
 
         $pagination = $request->pagination ?? 10;
@@ -60,6 +67,6 @@ trait Filter
             return $query->simplePaginate($pagination);
         }
 
-        return $query->get();
+        return $query->toSql();
     }
 }
