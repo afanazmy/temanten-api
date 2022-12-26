@@ -35,6 +35,10 @@ class SetupWizardRequest extends FormRequest
                 if ($exist) $fail('Username has been used');
             }],
             'superadmin.password' => ['required', 'confirmed'],
+            'superadmin.language' => ['nullable', function ($attribute, $value, $fail) {
+                $availableLanguages = ['en-US', 'id-ID'];
+                if (!in_array($value, $availableLanguages)) $fail('Language not found');
+            }],
         ];
     }
 }
