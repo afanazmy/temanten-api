@@ -17,7 +17,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('invitation_id')->constrained('invitations')->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedBigInteger('number_of_guest');
-            $table->tinyInteger('is_group');
+            $table->tinyInteger('is_group')->nullable()->default(0);
             $table->string('deleted_by')->nullable();
             $table->dateTime('deleted_at')->nullable();
             $table->timestamps();
