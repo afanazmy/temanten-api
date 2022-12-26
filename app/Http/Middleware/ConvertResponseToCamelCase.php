@@ -44,7 +44,12 @@ class ConvertResponseToCamelCase
     {
         $formatted = [];
         foreach ($params as $key => $value) {
-            $newKey = Str::camel($key);
+            $newKey = $key;
+
+            if (!Str::contains($key, "-")) {
+                $newKey = Str::camel($key);
+            }
+
             if (is_array($value)) {
                 $formatted[$newKey] = Self::convertCamelCase($value);
             } else {
