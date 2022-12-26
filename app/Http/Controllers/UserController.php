@@ -23,9 +23,30 @@ class UserController extends Controller
 
     public $language;
 
+    /**
+     * Column to display in index and show.
+     *
+     * @var array
+     */
+    public $columns = [
+        'id', 'username', 'is_active'
+    ];
+
     public function __construct()
     {
         $this->language = new Language(Auth::user());
+    }
+
+    public function userPermissions($id)
+    {
+        $userPermissions = DB::table('user_permissions')
+            ->select(['permission_id'])
+            ->join('permissions', 'permissions.id', '=', 'user_permissions.permission_id')
+            ->where('is_active', 1)
+            ->where('user_id', $id)
+            ->pluck('permission_id');
+
+        return $userPermissions;
     }
 
     public function signin(SigninRequest $request)
@@ -39,12 +60,7 @@ class UserController extends Controller
         DB::commit();
 
         $user = $user->first();
-        $user->permissions = DB::table('user_permissions')
-            ->select(['permission_id'])
-            ->join('permissions', 'permissions.id', '=', 'user_permissions.permission_id')
-            ->where('is_active', 1)
-            ->where('user_id', $user->id)
-            ->pluck('permission_id');
+        $user->permissions = $this->userPermissions($user->id);
 
         return response()->json(DefaultResponse::parse('success', $this->language->get(Language::user['signin']), $user));
     }
@@ -63,19 +79,21 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $result = DB::table('users')->select(['id', 'username', 'is_active']);
-        $result = $this->filter($request, $result);
+        $query = DB::table('users')->select($this->columns);
+        $result = $this->filter($request, $query);
 
         return response()->json(DefaultResponse::parse('success', $this->language->get(Language::common['success']), $result));
     }
 
     public function show(Request $request, $id)
     {
-        $result = DB::table('users')->select(['id', 'username', 'is_active'])->where('id', $id)->first();
+        $result = DB::table('users')->select($this->columns)->where('id', $id)->first();
 
         if (!$result) {
             return response()->json(DefaultResponse::parse('success', $this->language->get(Language::common['notFound']), null), 404);
         }
+
+        $result->permissions = $this->userPermissions($id);
 
         return response()->json(DefaultResponse::parse('success', $this->language->get(Language::common['found']), $result));
     }
@@ -115,7 +133,7 @@ class UserController extends Controller
     {
         DB::beginTransaction();
 
-        $result = DB::table('users')->select(['id', 'username', 'is_active'])->where('id', $id);
+        $result = DB::table('users')->select($this->columns)->where('id', $id);
 
         if (!$result->first()) {
             DB::rollBack();
@@ -151,7 +169,7 @@ class UserController extends Controller
     {
         DB::beginTransaction();
 
-        $result = DB::table('users')->select(['id', 'username', 'is_active'])->where('id', $id);
+        $result = DB::table('users')->select($this->columns)->where('id', $id);
 
         if (!$result->first()) {
             DB::rollBack();
@@ -174,7 +192,7 @@ class UserController extends Controller
     {
         DB::beginTransaction();
 
-        $result = DB::table('users')->select(['id', 'username', 'is_active'])->where('id', $id);
+        $result = DB::table('users')->select($this->columns)->where('id', $id);
 
         if (!$result->first()) {
             DB::rollBack();
@@ -191,5 +209,24 @@ class UserController extends Controller
         $result = $result->first();
 
         return response()->json(DefaultResponse::parse('success', $this->language->get(Language::user['deactivate']), $result));
+    }
+
+    public function permissions()
+    {
+        $result = DB::table('permission_groups')->select(['id', 'permission_group_name'])->where('is_active', 1)->get();
+        $permissions = DB::table('permissions')->select(['id', 'permission_group_id', 'permission_label'])->where('is_active', 1)->get();
+
+        foreach ($result as $permissionGroup) {
+            $permissionGroup->permission_group_name = json_decode($permissionGroup->permission_group_name);
+            $permissionGroup->permissions = $permissions
+                ->where('permission_group_id', $permissionGroup->id)
+                ->each(function ($item) {
+                    $item->permission_label = json_decode($item->permission_label);
+                })
+                ->values()
+                ->all();
+        }
+
+        return response()->json(DefaultResponse::parse('success', $this->language->get(Language::common['success']), $result));
     }
 }
