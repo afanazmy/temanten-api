@@ -25,7 +25,7 @@ $app = new Laravel\Lumen\Application(
 
 $app->withFacades();
 
-// $app->withEloquent();
+$app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +60,7 @@ $app->singleton(
 */
 
 $app->configure('app');
+$app->configure('excel');
 
 /*
 |--------------------------------------------------------------------------
@@ -101,6 +102,7 @@ $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->register(\Anik\Form\FormRequestServiceProvider::class);
+$app->register(Maatwebsite\Excel\ExcelServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
