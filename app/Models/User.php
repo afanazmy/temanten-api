@@ -13,6 +13,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 {
     use Authenticatable, Authorizable, HasFactory;
 
+    protected $keyType = 'string';
+
     /**
      * The attributes that are mass assignable.
      *

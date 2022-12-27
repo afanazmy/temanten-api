@@ -14,6 +14,8 @@ class SetupWizard extends Model
     const S_NOTYET = 'not-yet';
     const S_SKIPPED = 'skipped';
 
+    protected $keyType = 'string';
+
     /**
      * The attributes that are mass assignable.
      *
