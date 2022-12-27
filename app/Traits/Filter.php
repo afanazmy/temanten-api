@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use Illuminate\Contracts\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Schema;
@@ -12,19 +13,21 @@ trait Filter
      * Get query filter.
      *
      * @param Request $request
-     * @param Builder $query
+     * @param Builder|EloquentBuilder $query
      * @param array $config
      * @return array
      */
-    public function filter(Request $request, Builder $query, $config = ['paginate' => true])
+    public function filter(Request $request, Builder|EloquentBuilder $query, $config = ['paginate' => true])
     {
-        $_request = $request->except(['pagination', 'token', 'search', 'show_deleted', 'only_deleted']);
+        $_request = $request->except([
+            'pagination', 'token', 'search', 'show_deleted', 'only_deleted',
+        ]);
 
         /**
          * For search in spesific columns,
          * we use AND to filter data.
          */
-        $query->where(function (Builder $query) use ($_request) {
+        $query->where(function (Builder|EloquentBuilder $query) use ($_request) {
             foreach ($_request as $column => $value) {
                 $query->where($column, 'LIKE', '%' . trim($value) . '%');
             }
@@ -34,10 +37,11 @@ trait Filter
          * For search in any columns,
          * we use OR to filter data.
          */
-        $columns = $query->columns;
+        $columns = Schema::getColumnListing($query->from);
+        // $columns = $query->columns;
         $search = $request->search ?? false;
         if ($search) {
-            $query->orWhere(function (Builder $query) use ($columns, $search) {
+            $query->orWhere(function (Builder|EloquentBuilder $query) use ($columns, $search) {
                 foreach ($columns as $column) {
                     $query->orWhere($column, 'LIKE', '%' . trim($search) . '%');
                 }
@@ -55,11 +59,19 @@ trait Filter
                 $query->orWhereNotNull('deleted_at');
             }
 
-            $query->orWhereNull('deleted_at');
+            if (!$search) {
+                $query->orWhereNull('deleted_at');
+            } else {
+                $query->whereNull('deleted_at');
+            }
         }
 
         if ($hasDeletedAt && $onlyDeleted) {
-            $query->orWhereNotNull('deleted_at');
+            if (!$search) {
+                $query->orWhereNotNull('deleted_at');
+            } else {
+                $query->whereNotNull('deleted_at');
+            }
         }
 
         $pagination = $request->pagination ?? 10;
@@ -67,6 +79,6 @@ trait Filter
             return $query->simplePaginate($pagination);
         }
 
-        return $query->toSql();
+        return $query->get();
     }
 }
