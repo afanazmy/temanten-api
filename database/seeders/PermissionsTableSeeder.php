@@ -96,6 +96,16 @@ class PermissionsTableSeeder extends Seeder
                         'permission_group_id' => 3,
                         'permission_label' => json_encode(['en-US' => 'Restore Guest Book', 'id-ID' => 'Pulihkan Buku Tamu']),
                     ],
+                    [
+                        'id' => 'Delete All Guest Book',
+                        'permission_group_id' => 3,
+                        'permission_label' => json_encode(['en-US' => 'Delete All Guest Book', 'id-ID' => 'Hapus Semua Buku Tamu']),
+                    ],
+                    [
+                        'id' => 'Restore All Guest Book',
+                        'permission_group_id' => 3,
+                        'permission_label' => json_encode(['en-US' => 'Restore All Guest Book', 'id-ID' => 'Pulihkan Semua Buku Tamu']),
+                    ],
                 ]
             ],
             [
@@ -116,6 +126,16 @@ class PermissionsTableSeeder extends Seeder
                         'id' => 'Restore Wish',
                         'permission_group_id' => 4,
                         'permission_label' => json_encode(['en-US' => 'Restore Wish', 'id-ID' => 'Pulihkan Ucapan']),
+                    ],
+                    [
+                        'id' => 'Delete All Wish',
+                        'permission_group_id' => 4,
+                        'permission_label' => json_encode(['en-US' => 'Delete All Wish', 'id-ID' => 'Hapus Semua Ucapan']),
+                    ],
+                    [
+                        'id' => 'Restore All Wish',
+                        'permission_group_id' => 4,
+                        'permission_label' => json_encode(['en-US' => 'Restore All Wish', 'id-ID' => 'Pulihkan Semua Ucapan']),
                     ],
                 ]
             ],
@@ -146,12 +166,12 @@ class PermissionsTableSeeder extends Seeder
                     [
                         'id' => 'Delete All Galery',
                         'permission_group_id' => 5,
-                        'permission_label' => json_encode(['en-US' => 'Delete All Invitation', 'id-ID' => 'Hapus Semua Galeri']),
+                        'permission_label' => json_encode(['en-US' => 'Delete All Galery', 'id-ID' => 'Hapus Semua Galeri']),
                     ],
                     [
                         'id' => 'Restore All Galery',
                         'permission_group_id' => 5,
-                        'permission_label' => json_encode(['en-US' => 'Restore All Invitation', 'id-ID' => 'Pulihkan Semua Galeri']),
+                        'permission_label' => json_encode(['en-US' => 'Restore All Galery', 'id-ID' => 'Pulihkan Semua Galeri']),
                     ],
                 ]
             ],
