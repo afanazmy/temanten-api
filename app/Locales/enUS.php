@@ -26,5 +26,12 @@ trait enUS
         Language::invitation['clear'] => 'Successfully delete all invitation.',
         Language::invitation['restoreAll'] => 'Successfully restore all invitation.',
         Language::invitation['import'] => 'Successfully import invitation.',
+
+        Language::wish['store'] => 'Successfully add wish.',
+        Language::wish['update'] => 'Successfully update wish.',
+        Language::wish['delete'] => 'Successfully delete wish.',
+        Language::wish['restore'] => 'Successfully restore wish.',
+        Language::wish['clear'] => 'Successfully delete all wish.',
+        Language::wish['restoreAll'] => 'Successfully restore all wish.',
     ];
 }

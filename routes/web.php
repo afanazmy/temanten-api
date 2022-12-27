@@ -48,3 +48,16 @@ $router->group(['middleware' => 'auth', 'prefix' => 'invitations'], function () 
     $router->post('/', ['middleware' => 'permission:Add Invitation', 'uses' => 'InvitationController@store']);
     $router->put('{id}', ['middleware' => 'permission:Update Invitation', 'uses' =>  'InvitationController@update']);
 });
+
+$router->group(['middleware' => 'auth', 'prefix' => 'wishes'], function () use ($router) {
+    $router->get('/has-wishes', ['uses' => 'WishController@hasWish']);
+    $router->delete('clear', ['middleware' => 'permission:Delete All Wish', 'uses' =>  'WishController@clear']);
+    $router->put('restore-all', ['middleware' => 'permission:Restore All Wish', 'uses' =>  'WishController@restoreAll']);
+    $router->delete('delete', ['middleware' => 'permission:Delete Wish', 'uses' =>  'WishController@delete']);
+    $router->put('restore', ['middleware' => 'permission:Restore Wish', 'uses' =>  'WishController@restore']);
+
+    $router->get('/', ['uses' => 'WishController@index']);
+    $router->get('{id}', ['uses' =>  'WishController@show']);
+    $router->post('/', ['uses' => 'WishController@store']);
+    $router->put('{id}', ['middleware' => 'permission:Update Wish', 'uses' =>  'WishController@update']);
+});

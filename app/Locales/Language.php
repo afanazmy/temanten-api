@@ -72,4 +72,13 @@ class Language
         'restoreAll' => 'invitation.restoreAll',
         'import' => 'invitation.import',
     ];
+
+    const wish = [
+        'store' => 'wish.store',
+        'update' => 'wish.update',
+        'delete' => 'wish.delete',
+        'restore' => 'wish.restore',
+        'clear' => 'wish.clear',
+        'restoreAll' => 'wish.restoreAll',
+    ];
 }

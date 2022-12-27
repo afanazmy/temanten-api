@@ -17,8 +17,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('invitation_id')->constrained('invitations')->onUpdate('cascade')->onDelete('cascade');
             $table->string('group_member_name')->nullable();
-            $table->string('wish')->nullable();
-            $table->string('rsvp')->nullable();
+            $table->text('wish')->nullable();
+            $table->tinyInteger('rsvp')->nullable();
             $table->string('deleted_by')->nullable();
             $table->dateTime('deleted_at')->nullable();
             $table->timestamps();
