@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 use App\Traits\Filter;
@@ -15,7 +16,6 @@ use App\Locales\Language;
 use App\Imports\InvitationImport;
 use App\Exports\InvitationExport;
 use App\Http\Requests\ExportQrRequest;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Responses\DefaultResponse;
 use App\Http\Requests\GenerateQrRequest;
 use App\Http\Requests\StoreInvitationRequest;
