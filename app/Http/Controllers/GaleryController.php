@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\GetImageRequest;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 
 use App\Traits\Filter;
 use App\Locales\Language;
+use App\Http\Requests\GetImageRequest;
 use App\Http\Responses\DefaultResponse;
 use App\Http\Requests\StoreGaleryRequest;
 use App\Http\Requests\UpdateGaleryRequest;
