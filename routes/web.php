@@ -17,6 +17,7 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+$router->get('setup-wizard', 'SetupWizardController@index');
 $router->post('setup-wizard', 'SetupWizardController@store');
 
 $router->post('sign-in', 'UserController@signin');

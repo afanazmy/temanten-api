@@ -22,6 +22,14 @@ class SetupWizardController extends Controller
         $this->language = new Language(Auth::user());
     }
 
+    public function index()
+    {
+        $result = DB::table('setup_wizards')->where('status', SetupWizard::S_NOTYET)->get();
+        return response()->json(
+            DefaultResponse::parse('success', $this->language->get(Language::common['success']), $result)
+        );
+    }
+
     public function store(SetupWizardRequest $request)
     {
         DB::beginTransaction();
