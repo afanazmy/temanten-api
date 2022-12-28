@@ -33,5 +33,12 @@ trait idID
         Language::wish['restore'] => 'Berhasil memulihkan ucapan.',
         Language::wish['clear'] => 'Berhasil menghapus semua ucapan.',
         Language::wish['restoreAll'] => 'Berhasil memulihkan semua ucapan.',
+
+        Language::galery['store'] => 'Berhasil menambah galeri.',
+        Language::galery['update'] => 'Berhasil mengubah galeri.',
+        Language::galery['delete'] => 'Berhasil menghapus galeri.',
+        Language::galery['restore'] => 'Berhasil memulihkan galeri.',
+        Language::galery['clear'] => 'Berhasil menghapus semua galeri.',
+        Language::galery['restoreAll'] => 'Berhasil memulihkan semua galeri.',
     ];
 }

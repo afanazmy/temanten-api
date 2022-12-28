@@ -61,3 +61,16 @@ $router->group(['middleware' => 'auth', 'prefix' => 'wishes'], function () use (
     $router->post('/', ['uses' => 'WishController@store']);
     $router->put('{id}', ['middleware' => 'permission:Update Wish', 'uses' =>  'WishController@update']);
 });
+
+$router->get('galeries/img', ['uses' =>  'GaleryController@getImage']);
+$router->group(['middleware' => 'auth', 'prefix' => 'galeries'], function () use ($router) {
+    $router->delete('clear', ['middleware' => 'permission:Delete All Galery', 'uses' =>  'GaleryController@clear']);
+    $router->put('restore-all', ['middleware' => 'permission:Restore All Galery', 'uses' =>  'GaleryController@restoreAll']);
+    $router->delete('delete', ['middleware' => 'permission:Delete Galery', 'uses' =>  'GaleryController@delete']);
+    $router->put('restore', ['middleware' => 'permission:Restore Galery', 'uses' =>  'GaleryController@restore']);
+
+    $router->get('/', ['uses' => 'GaleryController@index']);
+    $router->get('{id}', ['uses' =>  'GaleryController@show']);
+    $router->post('/', ['uses' => 'GaleryController@store']);
+    $router->put('{id}', ['middleware' => 'permission:Update Galery', 'uses' =>  'GaleryController@update']);
+});

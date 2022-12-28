@@ -81,4 +81,13 @@ class Language
         'clear' => 'wish.clear',
         'restoreAll' => 'wish.restoreAll',
     ];
+
+    const galery = [
+        'store' => 'galery.store',
+        'update' => 'galery.update',
+        'delete' => 'galery.delete',
+        'restore' => 'galery.restore',
+        'clear' => 'galery.clear',
+        'restoreAll' => 'galery.restoreAll',
+    ];
 }

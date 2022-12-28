@@ -67,10 +67,17 @@ class WishController extends Controller
 
     public function show(Request $request, $id)
     {
-        $result = DB::table('wishes')->select($this->columns)->where('id', $id)->first();
+        $result = Wish::with(
+            ['invitation' => function ($query) {
+                $query->select(['id', 'recipient_name', 'is_group', 'is_family_member']);
+            }]
+        )
+            ->select($this->columns)
+            ->where('id', $id)
+            ->first();
 
         if (!$result) {
-            return response()->json(DefaultResponse::parse('success', $this->language->get(Language::common['notFound']), null), 404);
+            return response()->json(DefaultResponse::parse('failed', $this->language->get(Language::common['notFound']), null), 404);
         }
 
         return response()->json(DefaultResponse::parse('success', $this->language->get(Language::common['found']), $result));
@@ -174,7 +181,7 @@ class WishController extends Controller
 
         $result = DB::table('wishes')->select($this->columns)->whereNull('deleted_at');
 
-        if (!$result->first()) {
+        if (count($result->get()) == 0) {
             DB::rollBack();
             return response()->json(DefaultResponse::parse('failed', $this->language->get(Language::common['notFound']), null), 404);
         }
@@ -195,7 +202,7 @@ class WishController extends Controller
 
         $result = DB::table('wishes')->select($this->columns)->whereNotNull('deleted_at');
 
-        if (!$result->first()) {
+        if (count($result->get()) == 0) {
             DB::rollBack();
             return response()->json(DefaultResponse::parse('failed', $this->language->get(Language::common['notFound']), null), 404);
         }

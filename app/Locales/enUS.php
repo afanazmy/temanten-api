@@ -33,5 +33,12 @@ trait enUS
         Language::wish['restore'] => 'Successfully restore wish.',
         Language::wish['clear'] => 'Successfully delete all wish.',
         Language::wish['restoreAll'] => 'Successfully restore all wish.',
+
+        Language::galery['store'] => 'Successfully add galery.',
+        Language::galery['update'] => 'Successfully update galery.',
+        Language::galery['delete'] => 'Successfully delete galery.',
+        Language::galery['restore'] => 'Successfully restore galery.',
+        Language::galery['clear'] => 'Successfully delete all galery.',
+        Language::galery['restoreAll'] => 'Successfully restore all galery.',
     ];
 }

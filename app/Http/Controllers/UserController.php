@@ -90,7 +90,7 @@ class UserController extends Controller
         $result = DB::table('users')->select($this->columns)->where('id', $id)->first();
 
         if (!$result) {
-            return response()->json(DefaultResponse::parse('success', $this->language->get(Language::common['notFound']), null), 404);
+            return response()->json(DefaultResponse::parse('failed', $this->language->get(Language::common['notFound']), null), 404);
         }
 
         $result->permissions = $this->userPermissions($id);
