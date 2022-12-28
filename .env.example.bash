@@ -1,5 +1,5 @@
 APP_NAME='Temanten App'
-APP_ENV=local
+APP_ENV=$app_env
 APP_KEY=
 APP_DEBUG=false
 APP_URL=$app_url
