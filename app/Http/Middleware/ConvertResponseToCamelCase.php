@@ -34,6 +34,12 @@ class ConvertResponseToCamelCase
         return $response;
     }
 
+    public function isJson($string)
+    {
+        json_decode($string);
+        return json_last_error() === JSON_ERROR_NONE;
+    }
+
     /**
      * Convert array or object key snake_case to camelCase
      *
@@ -57,7 +63,7 @@ class ConvertResponseToCamelCase
                     ? substr_replace($newKey, '', -1)
                     : $newKey;
 
-                $formatted[$newKey] = $value;
+                $formatted[$newKey] = $this->isJson($value) ? json_decode($value) : $value;
             }
         }
         return $formatted;
