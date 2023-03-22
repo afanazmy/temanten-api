@@ -24,6 +24,7 @@ $router->post('sign-in', 'UserController@signin');
 $router->get('sign-out', ['middleware' => 'auth', 'uses' => 'UserController@signout']);
 
 $router->group(['middleware' => 'auth', 'prefix' => 'users'], function () use ($router) {
+    $router->get('auth', ['uses' => 'UserController@auth']);
     $router->get('permissions', ['uses' => 'UserController@permissions']);
     $router->put('activate/{id}', ['middleware' => 'permission:Update User Status', 'uses' =>  'UserController@activate']);
     $router->put('deactivate/{id}', ['middleware' => 'permission:Update User Status', 'uses' =>  'UserController@deactivate']);
