@@ -53,16 +53,28 @@ class UserController extends Controller
     {
         DB::beginTransaction();
 
-        $generateToken = bin2hex(random_bytes(40));
+        $token = bin2hex(random_bytes(40));
         $user = DB::table('users')->select(['id', 'username', 'token', 'language'])->where('username', $request->username);
-        $user->update(['token' => $generateToken]);
+        $user->update(['token' => $token]);
 
         DB::commit();
 
         $user = $user->first();
+        return response()->json(DefaultResponse::parse('success', $this->language->get(Language::user['signin']), $user));
+    }
+
+    public function auth()
+    {
+        $user = Auth::user();
         $user->permissions = $this->userPermissions($user->id);
 
-        return response()->json(DefaultResponse::parse('success', $this->language->get(Language::user['signin']), $user));
+        unset($user->token);
+        unset($user->password);
+        unset($user->is_active);
+        unset($user->created_at);
+        unset($user->updated_at);
+
+        return response()->json(DefaultResponse::parse('success', $this->language->get(Language::common['success']), $user));
     }
 
     public function signout(Request $request)
@@ -200,6 +212,7 @@ class UserController extends Controller
         }
 
         $result->update([
+            'token' => null,
             'is_active' => 0,
             'updated_at' => Date::now(),
         ]);
