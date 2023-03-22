@@ -2,4 +2,4 @@
     "diffEditor.wordWrap": "off",
     "editor.formatOnSave": true,
     "prettier.tabWidth": 4
-  }
+}
