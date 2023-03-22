@@ -79,12 +79,11 @@ $app->routeMiddleware([
 ]);
 
 $app->middleware([
-    App\Http\Middleware\ConvertRequestToSnakeCase::class
-]);
-
-$app->middleware([
+    App\Http\Middleware\Cors::class,
+    App\Http\Middleware\ConvertRequestToSnakeCase::class,
     App\Http\Middleware\ConvertResponseToCamelCase::class
 ]);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -104,6 +103,7 @@ $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->register(\Anik\Form\FormRequestServiceProvider::class);
 $app->register(Maatwebsite\Excel\ExcelServiceProvider::class);
 $app->register(Intervention\Image\ImageServiceProvider::class);
+$app->register(App\Providers\CatchAllOptionsRequestsProvider::class);
 
 
 /*
