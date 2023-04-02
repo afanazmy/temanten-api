@@ -181,9 +181,17 @@ class UserController extends Controller
     {
         DB::beginTransaction();
 
-        $result = DB::table('users')->select($this->columns)->where('id', $id);
+        $result = DB::table('users')->select($this->columns);
 
-        if (!$result->first()) {
+        if ($id) {
+            $result = $result->where('id', $id);
+        }
+
+        if ($request->ids) {
+            $result = $result->whereIn('id', $request->ids);
+        }
+
+        if (!$result->first() || (!$id && $request->ids)) {
             DB::rollBack();
             return response()->json(DefaultResponse::parse('failed', $this->language->get(Language::common['notFound']), null), 404);
         }
@@ -204,9 +212,17 @@ class UserController extends Controller
     {
         DB::beginTransaction();
 
-        $result = DB::table('users')->select($this->columns)->where('id', $id);
+        $result = DB::table('users')->select($this->columns);
 
-        if (!$result->first()) {
+        if ($id) {
+            $result = $result->where('id', $id);
+        }
+
+        if ($request->ids) {
+            $result = $result->whereIn('id', $request->ids);
+        }
+
+        if (!$result->first() || (!$id && $request->ids)) {
             DB::rollBack();
             return response()->json(DefaultResponse::parse('failed', $this->language->get(Language::common['notFound']), null), 404);
         }
