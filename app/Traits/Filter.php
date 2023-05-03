@@ -20,7 +20,7 @@ trait Filter
     public function filter(Request $request, Builder|EloquentBuilder $query, $config = ['paginate' => true])
     {
         $_request = $request->except([
-            'pagination', 'token', 'search', 'show_deleted', 'only_deleted',
+            'page', 'pagination', 'token', 'search', 'show_deleted', 'only_deleted',
         ]);
 
         /**
