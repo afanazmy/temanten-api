@@ -152,11 +152,16 @@ class UserController extends Controller
             return response()->json(DefaultResponse::parse('failed', $this->language->get(Language::common['notFound']), null), 404);
         }
 
-        $result->update([
+        $values = [
             'username' => $request->username,
-            'password' => Hash::make($request->password),
             'updated_at' => Date::now(),
-        ]);
+        ];
+
+        if ($request->has('password')) {
+            $values['password'] = Hash::make($request->password);
+        }
+
+        $result->update($values);
 
         DB::table('user_permissions')->where('user_id', $id)->delete();
 
@@ -168,6 +173,7 @@ class UserController extends Controller
             $userPermissions[$key]['permission_id'] = $value;
         }
 
+        DB::table('user_permissions')->where('user_id', $id)->delete();
         DB::table('user_permissions')->insert($userPermissions);
 
         DB::commit();
