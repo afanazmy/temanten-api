@@ -29,7 +29,7 @@ trait Filter
          */
         $query->where(function (Builder|EloquentBuilder $query) use ($_request) {
             foreach ($_request as $column => $value) {
-                $query->whereRaw("UPPER('{$column}') LIKE ?", ['%' . strtoupper(trim($value)) . '%']);
+                $query->whereRaw("UPPER({$column}) LIKE ?", ['%' . strtoupper(trim($value)) . '%']);
             }
         });
 
