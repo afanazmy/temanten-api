@@ -34,7 +34,7 @@ class Cors
 
         // Post-Middleware Action
         foreach ($headers as $key => $value) {
-            $response->header($key, $value);
+            $response->headers->set($key, $value);
         }
 
         return $response;
