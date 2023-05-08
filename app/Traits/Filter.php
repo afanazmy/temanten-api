@@ -43,7 +43,7 @@ trait Filter
         if ($search) {
             $query->orWhere(function (Builder|EloquentBuilder $query) use ($columns, $search) {
                 foreach ($columns as $column) {
-                    $query->orWhere($column, 'LIKE', '%' . trim($search) . '%');
+                    $query->orWhereRaw("UPPER({$column}) LIKE ?", ['%' . strtoupper(trim($search)) . '%']);
                 }
             });
         }
