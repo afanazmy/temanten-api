@@ -76,7 +76,7 @@ trait Filter
 
         $pagination = $request->pagination ?? 10;
         if ($config['paginate']) {
-            return $query->simplePaginate($pagination);
+            return $query->paginate($pagination);
         }
 
         return $query->get();
