@@ -91,7 +91,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $query = DB::table('users')->select($this->columns)->where('usename', '!=', 'superadmin');
+        $query = DB::table('users')->select($this->columns)->where('username', '!=', 'superadmin');
         $result = $this->filter($request, $query);
 
         return response()->json(DefaultResponse::parse('success', $this->language->get(Language::common['success']), $result));
