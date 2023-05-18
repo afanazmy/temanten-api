@@ -32,8 +32,6 @@ $router->group(['middleware' => 'auth', 'prefix' => 'users'], function () use ($
     $router->get('permissions', ['uses' => 'UserController@permissions']);
     $router->put('activate', ['middleware' => 'permission:Update User Status', 'uses' =>  'UserController@activate']);
     $router->put('deactivate', ['middleware' => 'permission:Update User Status', 'uses' =>  'UserController@deactivate']);
-    $router->put('activate/{id}', ['middleware' => 'permission:Update User Status', 'uses' =>  'UserController@activate']);
-    $router->put('deactivate/{id}', ['middleware' => 'permission:Update User Status', 'uses' =>  'UserController@deactivate']);
 
     $router->get('/', ['uses' => 'UserController@index']);
     $router->get('{id}', ['uses' =>  'UserController@show']);
