@@ -183,7 +183,7 @@ class UserController extends Controller
         return response()->json(DefaultResponse::parse('success', $this->language->get(Language::user['update']), $result));
     }
 
-    public function activate(Request $request, $id)
+    public function activate(Request $request, $id = null)
     {
         DB::beginTransaction();
 
@@ -193,11 +193,11 @@ class UserController extends Controller
             $result = $result->where('id', $id);
         }
 
-        if ($request->ids) {
-            $result = $result->whereIn('id', $request->ids);
+        if ($request->id) {
+            $result = $result->whereIn('id', $request->id);
         }
 
-        if (!$result->first() || (!$id && $request->ids)) {
+        if (!$result->first() || (!$id && $request->id)) {
             DB::rollBack();
             return response()->json(DefaultResponse::parse('failed', $this->language->get(Language::common['notFound']), null), 404);
         }
@@ -214,7 +214,7 @@ class UserController extends Controller
         return response()->json(DefaultResponse::parse('success', $this->language->get(Language::user['activate']), $result));
     }
 
-    public function deactivate(Request $request, $id)
+    public function deactivate(Request $request, $id = null)
     {
         DB::beginTransaction();
 
@@ -224,11 +224,11 @@ class UserController extends Controller
             $result = $result->where('id', $id);
         }
 
-        if ($request->ids) {
-            $result = $result->whereIn('id', $request->ids);
+        if ($request->id) {
+            $result = $result->whereIn('id', $request->id);
         }
 
-        if (!$result->first() || (!$id && $request->ids)) {
+        if (!$result->first() || (!$id && $request->id)) {
             DB::rollBack();
             return response()->json(DefaultResponse::parse('failed', $this->language->get(Language::common['notFound']), null), 404);
         }
