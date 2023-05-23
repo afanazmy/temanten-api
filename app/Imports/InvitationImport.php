@@ -35,19 +35,35 @@ class InvitationImport implements ToCollection, WithHeadingRow, WithCalculatedFo
         }
 
         $invitations = [];
+        $invitationPhoneNumbers = [];
 
         foreach ($rows as $row) {
+            $id = $row['Code'] ?? Str::orderedUuid();
+
             array_push($invitations, [
-                'id' => $row['Code'] ?? Str::orderedUuid(),
+                'id' => $id,
                 'recipient_name' => $row['Recipient Name'],
                 'is_group' => $row['Is Group'],
                 'is_family_member' => $row['Is Family Member'],
                 'created_at' => Date::now(),
                 'updated_at' => Date::now(),
             ]);
+
+            array_push($invitationPhoneNumbers, [
+                'invitation_id' => $id,
+                'phone_number' => $row['Whatsapp No. #1']
+            ]);
+
+            array_push($invitationPhoneNumbers, [
+                'invitation_id' => $id,
+                'phone_number' => $row['Whatsapp No. #2']
+            ]);
         }
 
         DB::table('invitations')->delete();
         DB::table('invitations')->insert($invitations);
+
+        DB::table('invitation_phone_numbers')->delete();
+        DB::table('invitation_phone_numbers')->insert($invitationPhoneNumbers);
     }
 }

@@ -71,6 +71,7 @@ class Language
         'clear' => 'invitation.clear',
         'restoreAll' => 'invitation.restoreAll',
         'import' => 'invitation.import',
+        'sent' => 'invitation.sent',
     ];
 
     const wish = [

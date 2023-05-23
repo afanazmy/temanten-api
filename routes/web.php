@@ -48,6 +48,7 @@ $router->group(['middleware' => 'auth', 'prefix' => 'invitations'], function () 
     $router->put('restore', ['middleware' => 'permission:Restore Invitation', 'uses' =>  'InvitationController@restore']);
     $router->get('download-template', ['middleware' => 'permission:Add Invitation', 'uses' =>  'InvitationController@downloadTemplate']);
     $router->post('import-template', ['middleware' => 'permission:Add Invitation', 'uses' =>  'InvitationController@importTemplate']);
+    $router->put('sent', ['uses' =>  'InvitationController@sent']);
 
     $router->get('/', ['uses' => 'InvitationController@index']);
     $router->get('{id}', ['uses' =>  'InvitationController@show']);

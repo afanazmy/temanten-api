@@ -26,6 +26,7 @@ trait idID
         Language::invitation['clear'] => 'Berhasil menghapus semua undangan.',
         Language::invitation['restoreAll'] => 'Berhasil memulihkan semua undangan.',
         Language::invitation['import'] => 'Berhasil mengimpor undangan.',
+        Language::invitation['sent'] => 'Berhasil mengirim undangan.',
 
         Language::wish['store'] => 'Berhasil menambah ucapan.',
         Language::wish['update'] => 'Berhasil mengubah ucapan.',

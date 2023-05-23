@@ -21,7 +21,7 @@ use App\Http\Requests\GenerateQrRequest;
 use App\Http\Requests\StoreInvitationRequest;
 use App\Http\Requests\ImportInvitationRequest;
 use App\Http\Requests\UpdateInvitationRequest;
-
+use App\Models\Invitation;
 use ZipArchive;
 
 class InvitationController extends Controller
@@ -44,9 +44,19 @@ class InvitationController extends Controller
         $this->language = new Language(Auth::user());
     }
 
+    public function invitationPhoneNumbers($id)
+    {
+        $invitationPhoneNumbers = DB::table('invitation_phone_numbers')
+            ->select(['phone_number'])
+            ->where('invitation_id', $id)
+            ->pluck('phone_number');
+
+        return $invitationPhoneNumbers;
+    }
+
     public function index(Request $request)
     {
-        $query = DB::table('invitations')->select($this->columns);
+        $query = Invitation::with('phoneNumbers')->select($this->columns);
         $result = $this->filter($request, $query);
 
         return response()->json(DefaultResponse::parse('success', $this->language->get(Language::common['success']), $result));
@@ -59,6 +69,8 @@ class InvitationController extends Controller
         if (!$result) {
             return response()->json(DefaultResponse::parse('failed', $this->language->get(Language::common['notFound']), null), 404);
         }
+
+        $result->phone_numbers = $this->invitationPhoneNumbers($id);
 
         return response()->json(DefaultResponse::parse('success', $this->language->get(Language::common['found']), $result));
     }
@@ -75,7 +87,19 @@ class InvitationController extends Controller
         ];
 
         DB::beginTransaction();
+
         DB::table('invitations')->insert($result);
+
+        $inviationPhoneNumbers = [];
+        $phoneNumbers = $request->phone_numbers ?? [];
+
+        foreach ($phoneNumbers as $key => $value) {
+            $inviationPhoneNumbers[$key]['invitation_id'] = $result['id'];
+            $inviationPhoneNumbers[$key]['phone_number'] = $value;
+        }
+
+        DB::table('invitation_phone_numbers')->insert($inviationPhoneNumbers);
+
         DB::commit();
 
         return response()->json(DefaultResponse::parse('success', $this->language->get(Language::invitation['store']), $result));
@@ -99,11 +123,47 @@ class InvitationController extends Controller
             'updated_at' => Date::now(),
         ]);
 
+        DB::table('invitation_phone_numbers')->where('invitation_id', $id)->delete();
+
+        $inviationPhoneNumbers = [];
+        $phoneNumbers = $request->phone_numbers ?? [];
+
+        foreach ($phoneNumbers as $key => $value) {
+            $inviationPhoneNumbers[$key]['invitation_id'] = $id;
+            $inviationPhoneNumbers[$key]['phone_number'] = $value;
+        }
+
+        DB::table('invitation_phone_numbers')->insert($inviationPhoneNumbers);
+
         DB::commit();
 
         $result = $result->first();
 
         return response()->json(DefaultResponse::parse('success', $this->language->get(Language::invitation['update']), $result));
+    }
+
+    public function sent(Request $request)
+    {
+        DB::beginTransaction();
+
+        $result = DB::table('invitation_phone_numbers')->whereIn('id', $request->id ?? []);
+
+        if (count($result->get()) == 0) {
+            DB::rollBack();
+            return response()->json(DefaultResponse::parse('failed', $this->language->get(Language::common['notFound']), null), 404);
+        }
+
+        $result->update([
+            'is_sent' => 1,
+            'sent_by' => Auth::user()->username,
+            'sent_at' => Date::now(),
+        ]);
+
+        DB::commit();
+
+        $result = $result->get();
+
+        return response()->json(DefaultResponse::parse('success', $this->language->get(Language::invitation['sent']), $result));
     }
 
     public function delete(Request $request)

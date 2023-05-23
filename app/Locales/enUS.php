@@ -26,6 +26,7 @@ trait enUS
         Language::invitation['clear'] => 'Successfully delete all invitation.',
         Language::invitation['restoreAll'] => 'Successfully restore all invitation.',
         Language::invitation['import'] => 'Successfully import invitation.',
+        Language::invitation['sent'] => 'Successfully sent invitation.',
 
         Language::wish['store'] => 'Successfully add wish.',
         Language::wish['update'] => 'Successfully update wish.',

@@ -8,8 +8,13 @@ class Invitation extends Model
 {
     protected $keyType = 'string';
 
-    public function wishes()
+    public function wish()
     {
         return $this->hasOne(Wish::class);
+    }
+
+    public function phoneNumbers()
+    {
+        return $this->hasMany(InvitationPhoneNumber::class);
     }
 }
