@@ -91,4 +91,8 @@ class Language
         'clear' => 'galery.clear',
         'restoreAll' => 'galery.restoreAll',
     ];
+
+    const setting = [
+        'update' => 'setting.update',
+    ];
 }

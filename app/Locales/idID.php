@@ -41,5 +41,7 @@ trait idID
         Language::galery['restore'] => 'Berhasil memulihkan galeri.',
         Language::galery['clear'] => 'Berhasil menghapus semua galeri.',
         Language::galery['restoreAll'] => 'Berhasil memulihkan semua galeri.',
+
+        Language::setting['update'] => 'Berhasil mengubah setting.',
     ];
 }

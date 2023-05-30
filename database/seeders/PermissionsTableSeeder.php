@@ -175,6 +175,17 @@ class PermissionsTableSeeder extends Seeder
                     ],
                 ]
             ],
+            [
+                'id' => 6,
+                'permission_group_name' => json_encode(['en-US' => 'Setting', 'id-ID' => 'Setting']),
+                'permissions' => [
+                    [
+                        'id' => 'Update Setting',
+                        'permission_group_id' => 6,
+                        'permission_label' => json_encode(['en-US' => 'Update Setting', 'id-ID' => 'Ubah Setting']),
+                    ],
+                ]
+            ],
         ];
 
         DB::beginTransaction();

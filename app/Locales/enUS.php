@@ -41,5 +41,7 @@ trait enUS
         Language::galery['restore'] => 'Successfully restore galery.',
         Language::galery['clear'] => 'Successfully delete all galery.',
         Language::galery['restoreAll'] => 'Successfully restore all galery.',
+
+        Language::setting['update'] => 'Successfully update setting.',
     ];
 }

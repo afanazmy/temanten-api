@@ -2,11 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Setting;
+use App\Http\Responses\DefaultResponse;
+use App\Locales\Language;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
 
 class SettingController extends Controller
 {
+    public $language;
+
+    public function __construct()
+    {
+        $this->language = new Language(Auth::user());
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,72 +25,44 @@ class SettingController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $settings = DB::table('settings')->get();
+        $result = [];
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+        foreach ($settings as $setting) {
+            $result[$setting->name] = $setting->value;
+        }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Setting  $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Setting $setting)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Setting  $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Setting $setting)
-    {
-        //
+        return response()->json(DefaultResponse::parse('success', $this->language->get(Language::common['success']), $result));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Setting $setting)
+    public function update(Request $request)
     {
-        //
-    }
+        $settings = [];
+        $settingNames = [];
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Setting  $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Setting $setting)
-    {
-        //
+        foreach ($request->all() as $key => $value) {
+            array_push($settingNames, $key);
+            array_push($settings, [
+                'name' => $key,
+                'value' => $value,
+                'created_at' => Date::now(),
+                'updated_at' => Date::now()
+            ]);
+        }
+
+        DB::beginTransaction();
+
+        DB::table('settings')->whereIn('name', $settingNames)->delete();
+        DB::table('settings')->insert($settings);
+
+        DB::commit();
+
+        return response()->json(DefaultResponse::parse('success', $this->language->get(Language::setting['update']), null));
     }
 }

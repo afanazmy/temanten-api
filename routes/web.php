@@ -81,3 +81,8 @@ $router->group(['middleware' => 'auth', 'prefix' => 'galeries'], function () use
     $router->post('/', ['uses' => 'GaleryController@store']);
     $router->put('{id}', ['middleware' => 'permission:Update Galery', 'uses' =>  'GaleryController@update']);
 });
+
+$router->group(['middleware' => 'auth', 'prefix' => 'settings'], function () use ($router) {
+    $router->get('/', ['uses' => 'SettingController@index']);
+    $router->put('/', ['middleware' => 'permission:Update Setting', 'uses' =>  'SettingController@update']);
+});
