@@ -42,6 +42,7 @@ class SetupWizardController extends Controller
     {
         DB::beginTransaction();
 
+        // setup superadmin
         $superadmin = [
             'id' => Str::orderedUuid(),
             'username' => $request->superadmin['username'],
@@ -66,6 +67,28 @@ class SetupWizardController extends Controller
         DB::table('user_permissions')->insert($userPermissions);
 
         DB::table('setup_wizards')->where('type', SetupWizard::T_SUPERADMIN)->update([
+            'status' => SetupWizard::S_DONE,
+            'updated_at' => Date::now()
+        ]);
+
+        // setup app
+        $settings = [];
+        $settingNames = [];
+
+        foreach ($request->app as $key => $value) {
+            array_push($settingNames, $key);
+            array_push($settings, [
+                'name' => $key,
+                'value' => $value,
+                'created_at' => Date::now(),
+                'updated_at' => Date::now()
+            ]);
+        }
+
+        DB::table('settings')->whereIn('name', $settingNames)->delete();
+        DB::table('settings')->insert($settings);
+
+        DB::table('setup_wizards')->where('type', SetupWizard::T_APP)->update([
             'status' => SetupWizard::S_DONE,
             'updated_at' => Date::now()
         ]);

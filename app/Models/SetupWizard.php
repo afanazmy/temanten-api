@@ -8,6 +8,7 @@ class SetupWizard extends Model
 {
     /** Setup Wizard Type */
     const T_SUPERADMIN = 'superadmin';
+    const T_APP = 'app';
 
     /** Setup Wizard Status */
     const S_DONE = 'done';

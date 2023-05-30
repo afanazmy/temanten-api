@@ -39,6 +39,22 @@ class SetupWizardRequest extends FormRequest
                 $availableLanguages = ['en-US', 'id-ID'];
                 if (!in_array($value, $availableLanguages)) $fail('Language not found');
             }],
+            'app.bride' => ['required'],
+            'app.groom' => ['required'],
+            'app.bride_nickname' => ['required'],
+            'app.groom_nickname' => ['required'],
+            'app.bride_father' => ['required'],
+            'app.bride_mother' => ['required'],
+            'app.groom_father' => ['required'],
+            'app.groom_mother' => ['required'],
+            'app.akad_datetime' => ['required'],
+            'app.akad_place' => ['required'],
+            'app.akad_map' => ['required'],
+            'app.reception_datetime' => ['required'],
+            'app.reception_place' => ['required'],
+            'app.reception_map' => ['required'],
+            'app.dresscode' => ['nullable'],
+            'app.invitation_wording' => ['nullable'],
         ];
     }
 }

@@ -21,14 +21,27 @@ class SetupWizardsTableSeeder extends Seeder
         $superadmin = DB::table('setup_wizards')->where('type', SetupWizard::T_SUPERADMIN)->first() ?? null;
         if ($superadmin) return;
 
-        DB::table('setup_wizards')->insert([
-            'id' => Str::orderedUuid(),
-            'step' => 1,
-            'name' => json_encode(['en-US' => 'Add Superadmin', 'id-ID' => 'Tambah Superadmin']),
-            'type' => SetupWizard::T_SUPERADMIN,
-            'status' => SetupWizard::S_NOTYET,
-            'created_at' => Date::now(),
-            'updated_at' => Date::now(),
-        ]);
+        DB::table('setup_wizards')->insert(
+            [
+                [
+                    'id' => Str::orderedUuid(),
+                    'step' => 1,
+                    'name' => json_encode(['en-US' => 'Add Superadmin', 'id-ID' => 'Tambah Superadmin']),
+                    'type' => SetupWizard::T_SUPERADMIN,
+                    'status' => SetupWizard::S_NOTYET,
+                    'created_at' => Date::now(),
+                    'updated_at' => Date::now(),
+                ],
+                [
+                    'id' => Str::orderedUuid(),
+                    'step' => 2,
+                    'name' => json_encode(['en-US' => 'App Setting', 'id-ID' => 'App Setting']),
+                    'type' => SetupWizard::T_APP,
+                    'status' => SetupWizard::S_NOTYET,
+                    'created_at' => Date::now(),
+                    'updated_at' => Date::now(),
+                ]
+            ]
+        );
     }
 }
