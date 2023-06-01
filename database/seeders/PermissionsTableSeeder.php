@@ -82,6 +82,11 @@ class PermissionsTableSeeder extends Seeder
                 'permission_group_name' => json_encode(['en-US' => 'Guest Book', 'id-ID' => 'Buku Tamu']),
                 'permissions' => [
                     [
+                        'id' => 'Add Guest Book',
+                        'permission_group_id' => 3,
+                        'permission_label' => json_encode(['en-US' => 'Add Guest Book', 'id-ID' => 'Tambah Buku Tamu']),
+                    ],
+                    [
                         'id' => 'Update Guest Book',
                         'permission_group_id' => 3,
                         'permission_label' => json_encode(['en-US' => 'Update Guest Book', 'id-ID' => 'Ubah Buku Tamu']),

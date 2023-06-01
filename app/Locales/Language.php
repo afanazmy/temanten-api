@@ -92,6 +92,17 @@ class Language
         'restoreAll' => 'galery.restoreAll',
     ];
 
+    const guestBook = [
+        'store' => 'guestBook.store',
+        'update' => 'guestBook.update',
+        'delete' => 'guestBook.delete',
+        'restore' => 'guestBook.restore',
+        'clear' => 'guestBook.clear',
+        'restoreAll' => 'guestBook.restoreAll',
+        'invitationNotFound' => 'guestBook.invitationNotFound',
+        'invitationAlreadyUsed' => 'guestBook.invitationAlreadyUsed',
+    ];
+
     const setting = [
         'update' => 'setting.update',
     ];

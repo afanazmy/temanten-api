@@ -42,6 +42,15 @@ trait enUS
         Language::galery['clear'] => 'Successfully delete all galery.',
         Language::galery['restoreAll'] => 'Successfully restore all galery.',
 
+        Language::guestBook['store'] => 'Successfully add guest book.',
+        Language::guestBook['update'] => 'Successfully update guest book.',
+        Language::guestBook['delete'] => 'Successfully delete guest book.',
+        Language::guestBook['restore'] => 'Successfully restore guest book.',
+        Language::guestBook['clear'] => 'Successfully delete all guest book.',
+        Language::guestBook['restoreAll'] => 'Successfully restore all guest book.',
+        Language::guestBook['invitationNotFound'] => 'Invitation not found.',
+        Language::guestBook['invitationAlreadyUsed'] => 'Invitation already used.',
+
         Language::setting['update'] => 'Successfully update setting.',
     ];
 }

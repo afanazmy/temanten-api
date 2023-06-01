@@ -42,6 +42,15 @@ trait idID
         Language::galery['clear'] => 'Berhasil menghapus semua galeri.',
         Language::galery['restoreAll'] => 'Berhasil memulihkan semua galeri.',
 
+        Language::guestBook['store'] => 'Berhasil menambah buku tamu.',
+        Language::guestBook['update'] => 'Berhasil mengubah buku tamu.',
+        Language::guestBook['delete'] => 'Berhasil menghapus buku tamu.',
+        Language::guestBook['restore'] => 'Berhasil memulihkan buku tamu.',
+        Language::guestBook['clear'] => 'Berhasil menghapus semua buku tamu.',
+        Language::guestBook['restoreAll'] => 'Berhasil memulihkan semua buku tamu.',
+        Language::guestBook['invitationNotFound'] => 'Undangan tidak ditemukan.',
+        Language::guestBook['invitationAlreadyUsed'] => 'Undangan sudah digunakan.',
+
         Language::setting['update'] => 'Berhasil mengubah setting.',
     ];
 }

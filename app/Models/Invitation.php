@@ -17,4 +17,9 @@ class Invitation extends Model
     {
         return $this->hasMany(InvitationPhoneNumber::class);
     }
+
+    public function guestBook()
+    {
+        return $this->hasOne(GuestBook::class);
+    }
 }
