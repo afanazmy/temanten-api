@@ -35,6 +35,25 @@ class SettingController extends Controller
         return response()->json(DefaultResponse::parse('success', $this->language->get(Language::common['success']), $result));
     }
 
+    public function show(Request $request)
+    {
+        $result = DB::table('settings');
+
+        if ($request->name) {
+            $result = $result->where('name', $request->name)->first();
+
+            if (!$result) {
+                return response()->json(DefaultResponse::parse('failed', $this->language->get(Language::common['notFound']), null), 404);
+            }
+        } else if ($request->names) {
+            $result = $result->whereIn('name', $request->names)->get();
+        } else {
+            return response()->json(DefaultResponse::parse('failed', $this->language->get(Language::common['notFound']), null), 404);
+        }
+
+        return response()->json(DefaultResponse::parse('success', $this->language->get(Language::common['found']), $result));
+    }
+
     /**
      * Update the specified resource in storage.
      *

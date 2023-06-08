@@ -88,5 +88,7 @@ class SettingsTableSeeder extends Seeder
                 'value' => '%recipient%,%bride%,%groom%,%invitation_link%,%bride_nickname%,%groom_nickname%'
             ]
         ];
+
+        DB::table('settings')->insert($setting);
     }
 }
