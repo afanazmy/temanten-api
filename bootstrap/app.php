@@ -75,6 +75,7 @@ $app->configure('excel');
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
+    'apps' => App\Http\Middleware\AppsMiddleware::class,
     'permission' => App\Http\Middleware\Permission::class,
 ]);
 

@@ -87,3 +87,8 @@ $router->group(['middleware' => 'auth', 'prefix' => 'settings'], function () use
     $router->get('/', ['uses' => 'SettingController@index']);
     $router->put('/', ['middleware' => 'permission:Update Setting', 'uses' =>  'SettingController@update']);
 });
+
+$router->group(['middleware' => 'apps', 'prefix' => 'apps'], function () use ($router) {
+    $router->get('/initial', ['uses' => 'AppsController@initial']);
+    $router->get('/guest', ['uses' => 'AppsController@guest']);
+});

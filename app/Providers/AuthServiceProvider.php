@@ -37,8 +37,8 @@ class AuthServiceProvider extends ServiceProvider
             $token = $this->token($request);
             if ($token) {
                 $user = DB::table('users')->where('token', $token)->first();
-                $apps = DB::table('personal_access_clients')->where('token', $token)->first();
-                return $user ?? $apps;
+                // $apps = DB::table('personal_access_clients')->where('token', $token)->first();
+                return $user;
             }
         });
     }
